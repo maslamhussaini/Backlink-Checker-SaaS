@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Backlink Checker"
+description = "A responsive backlink analysis SaaS prototype with domain validation, sample scan results, plan previews, and a replaceable server-side data provider boundary."
+version = "1.0.0"
+id = "artifacts/backlink-checker"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18923
+
+[services.development]
+run = "pnpm --filter @workspace/backlink-checker run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/backlink-checker", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/backlink-checker/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18923"
+BASE_PATH = "/"

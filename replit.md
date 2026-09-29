@@ -1,10 +1,11 @@
-# [Project name]
+# LinkLedger Backlink Checker
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+LinkLedger is a responsive Phase 1 backlink checker SaaS prototype that validates a domain and presents clearly labeled sample backlink results.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/backlink-checker run dev` — run the web app through the managed workflow
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -22,15 +23,25 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/backlink-checker/src/App.tsx` — home and sample-results routes
+- `artifacts/backlink-checker/src/lib/data-provider.ts` — `BacklinkDataProvider` contract and deterministic local sample provider
+- `artifacts/backlink-checker/src/index.css` — LinkLedger theme and responsive styles
+- `/` — domain/URL entry and plan previews
+- `/results?domain=example.com` — labeled sample backlink results
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Phase 1 uses a local deterministic provider so the UI is useful without claiming a live crawl.
+- `BacklinkDataProvider` keeps data access replaceable for a future server-side provider; no browser API credentials or external calls are present.
+- Domain inputs are normalized to lowercase hostnames and `www.` is removed before routing.
+- Sample results always show a visible `SAMPLE DATA · NOT A LIVE SCAN` label.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Validates and normalizes domain or URL input.
+- Shows sample totals for backlinks, referring domains, follow links, and nofollow links.
+- Lists sample source URL, target URL, anchor text, link type, and last-seen date records.
+- Presents Free, Starter, and Agency plan previews with “Coming soon” pricing.
 
 ## User preferences
 
